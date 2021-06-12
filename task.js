@@ -13,7 +13,7 @@ addBtn.addEventListener('click', () => {
     document.getElementById('new-task').value = '';
     // show table row
     if (taskLists.length > 0) {
-        addTask(taskLists, taskLists.length);
+        addTask(taskLists);
     }
 })
 
