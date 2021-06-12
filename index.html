@@ -16,7 +16,7 @@
 </head>
 <body>
     <h1>ToDo リスト</h1>
-    <form name="selectStatus">
+    <form name="select-status">
         <input type="radio" name="state" id="all" value="all" checked>すべて
         <input type="radio" name="state" id="wip" value="wip">作業中
         <input type="radio" name="state" id="done" value="done">完了
@@ -29,13 +29,13 @@
                 <th>状態</th>
             </tr>
         </thead>
-        <tbody id="tableBody">
+        <tbody id="table-body">
         </tbody>
     </table>
     <h2>新規タスクの追加</h2>
     <form>
-        <input type="text" name="addTask" id="newTask">
-        <input type="button" value="追加" id="addTask">
+        <input type="text" name="add-task" id="new-task">
+        <input type="button" value="追加" id="add-task">
     </form>
     <script src="./task.js"></script>
 </body>
