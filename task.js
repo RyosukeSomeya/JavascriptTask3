@@ -37,6 +37,7 @@ function addTask(taskLists) {
         commentCell.innerText = task.comment;
         stateBtn.innerText = btnValue;
         deleteBtn.innerText = '削除';
+        deleteBtn.setAttribute('onclick', `deleteTask(${index})`);
         stateCell.appendChild(stateBtn);
         stateCell.appendChild(deleteBtn);
         row.appendChild(idCell);
@@ -56,4 +57,9 @@ function showTask(rowElements) {
     rowElements.forEach(row => {
         targetElem.appendChild(row);
     })
+}
+
+function deleteTask(index) {
+    taskLists.splice(index, 1);
+    addTask(taskLists)
 }
