@@ -13,11 +13,11 @@ addBtn.addEventListener('click', () => {
     document.getElementById('new-task').value = '';
     // show table row
     if (taskLists.length > 0) {
-        addTask(taskLists);
+        createTaskList(taskLists);
     }
 })
 
-function addTask(taskLists) {
+function createTaskList(taskLists) {
     const rowElements = [];
     taskLists.forEach((task, index) => {
         let btnValue = '完了';
@@ -46,10 +46,10 @@ function addTask(taskLists) {
         row.appendChild(stateCell);
         rowElements.push(row);
     });
-    showTask(rowElements);
+    showTaskList(rowElements);
 }
 
-function showTask(rowElements) {
+function showTaskList(rowElements) {
     const targetElem = document.getElementById('table-body');
     // targetElemが子要素を持っていたら初期化
     if (targetElem.hasChildNodes()) {
@@ -62,9 +62,15 @@ function showTask(rowElements) {
 
 function deleteTask(index) {
     taskLists.splice(index, 1);
-    addTask(taskLists)
+    createTaskList(taskLists)
 }
 
 function changeState(index) {
-    console.log(taskLists[index]);
+    const task = taskLists[index];
+    if (task.state === 'wip') {
+        task.state = 'done';
+    } else {
+        task.state = 'wip';
+    }
+    createTaskList(taskLists);
 }
