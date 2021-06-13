@@ -36,8 +36,9 @@ function addTask(taskLists) {
         idCell.innerText = index;
         commentCell.innerText = task.comment;
         stateBtn.innerText = btnValue;
+        stateBtn.addEventListener('click', () => changeState(index));
         deleteBtn.innerText = '削除';
-        deleteBtn.addEventListener('click', index => deleteTask(index));
+        deleteBtn.addEventListener('click', () => deleteTask(index));
         stateCell.appendChild(stateBtn);
         stateCell.appendChild(deleteBtn);
         row.appendChild(idCell);
@@ -62,4 +63,8 @@ function showTask(rowElements) {
 function deleteTask(index) {
     taskLists.splice(index, 1);
     addTask(taskLists)
+}
+
+function changeState(index) {
+    console.log(taskLists[index]);
 }
