@@ -1,4 +1,5 @@
 const addBtn = document.getElementById('add-task');
+const stateBtns = document.querySelectorAll('input[name="state"]')
 const taskLists = [];
 
 addBtn.addEventListener('click', () => {
@@ -13,38 +14,47 @@ addBtn.addEventListener('click', () => {
     document.getElementById('new-task').value = '';
     // show table row
     if (taskLists.length > 0) {
-        createTaskList(taskLists);
+        createTaskList(taskLists, checkDisplayState());
     }
-})
+});
 
-function createTaskList(taskLists) {
+stateBtns.forEach(stateBtn => {
+    stateBtn.addEventListener('change', () => {
+        createTaskList(taskLists, stateBtn.value)
+    });
+});
+
+function createTaskList(taskLists, selectedState) {
     const rowElements = [];
     taskLists.forEach((task, index) => {
         let btnValue = '完了';
         if (task.state === 'wip') {
             btnValue = '作業中';
         }
-        // Create table row element s.
-        const row = document.createElement('tr');
-        const idCell = document.createElement('td');
-        const commentCell = document.createElement('td');
-        const stateCell = document.createElement('td');
-        const stateBtn = document.createElement('button');
-        const deleteBtn = document.createElement('button');
 
         // Set contents to row elements.
-        idCell.innerText = index;
-        commentCell.innerText = task.comment;
-        stateBtn.innerText = btnValue;
-        stateBtn.addEventListener('click', () => changeState(index));
-        deleteBtn.innerText = '削除';
-        deleteBtn.addEventListener('click', () => deleteTask(index));
-        stateCell.appendChild(stateBtn);
-        stateCell.appendChild(deleteBtn);
-        row.appendChild(idCell);
-        row.appendChild(commentCell);
-        row.appendChild(stateCell);
-        rowElements.push(row);
+        if (selectedState === 'all' || task.state === selectedState) {
+            // Create table row element s.
+            const row = document.createElement('tr');
+            const idCell = document.createElement('td');
+            const commentCell = document.createElement('td');
+            const stateCell = document.createElement('td');
+            const stateBtn = document.createElement('button');
+            const deleteBtn = document.createElement('button');
+
+            idCell.innerText = index;
+            commentCell.innerText = task.comment;
+            stateBtn.innerText = btnValue;
+            stateBtn.addEventListener('click', () => changeState(index));
+            deleteBtn.innerText = '削除';
+            deleteBtn.addEventListener('click', () => deleteTask(index));
+            stateCell.appendChild(stateBtn);
+            stateCell.appendChild(deleteBtn);
+            row.appendChild(idCell);
+            row.appendChild(commentCell);
+            row.appendChild(stateCell);
+            rowElements.push(row);
+        }
     });
     showTaskList(rowElements);
 }
@@ -62,7 +72,7 @@ function showTaskList(rowElements) {
 
 function deleteTask(index) {
     taskLists.splice(index, 1);
-    createTaskList(taskLists)
+    createTaskList(taskLists, checkDisplayState())
 }
 
 function changeState(index) {
@@ -72,5 +82,20 @@ function changeState(index) {
     } else {
         task.state = 'wip';
     }
-    createTaskList(taskLists);
+    stateBtns.forEach(stateBtn => {
+        if (stateBtn.checked) {
+            createTaskList(taskLists, checkDisplayState());
+        }
+    });
 }
+
+function checkDisplayState() {
+    let displayState = 'all';
+    stateBtns.forEach(stateBtn => {
+        if (stateBtn.checked) {
+            displayState = stateBtn.value;
+        }
+    });
+    return displayState;
+}
+
